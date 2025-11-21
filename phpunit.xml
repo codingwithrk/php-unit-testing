@@ -1,0 +1,8 @@
+<phpunit 
+    colors="true"
+    testdox="true"
+    displayDetailsOnTestsThatTriggerWarnings="true"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+>
+
+</phpunit>
