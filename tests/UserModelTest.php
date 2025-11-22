@@ -7,6 +7,16 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use App\Models\User;
 
 final class UserModelTest extends TestCase {
+    protected $user;
+
+    public function setUp() : void {
+        $this->user = new User();
+    }
+
+    public function tearDown() : void {
+        $this->user = null;
+    }
+    
     public static function usernameProvider() : array {
         return [
             ['codingwithrk', 'codingwithrk'],
@@ -15,67 +25,59 @@ final class UserModelTest extends TestCase {
     }
 
     public function testUserId() : void {
-        $user = new User();
         $userId = 1;
-        $user->setId($userId);
+        $this->user->setId($userId);
 
-        $this->assertSame($userId, $user->getId());
+        $this->assertSame($userId, $this->user->getId());
     }
 
     public function testUserFirstName() : void {
-        $user = new User();
         $fistName = "Pappala";
-        $user->setFirstName($fistName);
+        $this->user->setFirstName($fistName);
         
-        $this->assertSame($fistName, $user->getFirstName());
+        $this->assertSame($fistName, $this->user->getFirstName());
        
     }
 
     public function testUserLastName() : void {
-        $user = new User();
         $lastName = "Raj Kumar";
-        $user->setLastName($lastName);
+        $this->user->setLastName($lastName);
        
-        $this->assertSame($lastName, $user->getLastName());
+        $this->assertSame($lastName, $this->user->getLastName());
     }
     
     public function testUserUsername() : void {
-        $user = new User();
         $userName = "codingwithrk";
-        $user->setUsername($userName);
+        $this->user->setUsername($userName);
         
-        $this->assertSame($userName, $user->getUsername());
+        $this->assertSame($userName, $this->user->getUsername());
     }
 
     #[DataProvider('usernameProvider')]
     public function testAddtionalUserUsername(string $username, string $expected) : void {
-        $user = new User();
-        $user->setUsername($username);
+        $this->user->setUsername($username);
 
-        $this->assertSame($expected, $user->getUsername());
+        $this->assertSame($expected, $this->user->getUsername());
     }
 
     public function testUserPassword() : void {
-        $user = new User();
         $password = "codingwithrk";        
-        $user->setPassword($password);
+        $this->user->setPassword($password);
 
-        $this->assertSame($password, $user->getPassword());
+        $this->assertSame($password, $this->user->getPassword());
     }
 
     public function testUserEmail() : void {
-        $user = new User();
         $email = "connect@codingwithrk.com";
-        $user->setEmail($email);
+        $this->user->setEmail($email);
 
-        $this->assertSame($email, $user->getEmail());
+        $this->assertSame($email, $this->user->getEmail());
     }
 
     public function testEmailException() {
-        $user = new User();
         $email = "connectcodingwithrkcom";
 
         $this->expectException(Exception::class);
-        $user->setEmail($email);
+        $this->user->setEmail($email);
     }
 }

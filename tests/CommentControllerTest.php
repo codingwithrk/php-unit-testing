@@ -10,18 +10,26 @@ use App\Models\Comment;
 use Monolog\Logger;
 
 final class CommentControllerTest extends TestCase {
-    public function testCommentInsert() : array {
+    protected static $comment_controller;
+    protected $comment;
+
+    public static function setUpBeforeClass() : void {
         $mysql_adapter = new MysqlAdapter('mysql:host=localhost;dbname=phpunit', 'root', '');
         $logger = new Logger('logger');
 
-        $comment_controller = new CommentController($mysql_adapter, $logger);
+        self::$comment_controller = new CommentController($mysql_adapter, $logger);
+    }
 
-        $comment = new Comment();
-        $comment->setPostId(1);
-        $comment->setAuthorId(1);
-        $comment->setComment("This is testing Comment");
+    protected function setUp() : void {
+        $this->comment = new Comment();
+    }
 
-        $results = $comment_controller->insert($comment);
+    public function testCommentInsert() : array {
+        $this->comment->setPostId(1);   
+        $this->comment->setAuthorId(1);
+        $this->comment->setComment("This is testing Comment");
+
+        $results = self::$comment_controller->insert($this->comment);
 
         $this->assertIsArray($results);
         $this->assertArrayHasKey('id', $results);
@@ -35,6 +43,28 @@ final class CommentControllerTest extends TestCase {
         $this->arrayHasKey('comment', $results);
         $this->assertEquals("This is testing Comment", $results['comment']);
 
-        return array();
+        return $results;
+    }
+
+    #[Depends('testCommentInsert')]
+    public function testCommentUpdate(array $comment) : void {
+        $this->comment->setId($comment['id']);
+        $this->comment->setPostId($comment['post_id']);
+        $this->comment->setAuthorId($comment['author_id']);
+        $this->comment->setComment("Updated Comment");
+
+        $results = self::$comment_controller->update($this->comment);
+
+        $this->assertIsArray($results);
+        $this->assertArrayHasKey('id', $results);
+
+        $this->arrayHasKey('post_id', $results);
+        $this->assertEquals($comment['post_id'], $results['post_id']);
+
+        $this->arrayHasKey('author_id', $results);
+        $this->assertEquals($comment['author_id'], $results['author_id']);
+
+        $this->arrayHasKey('comment', $results);
+        $this->assertEquals("Updated Comment", $results['comment']); 
     }
 }

@@ -76,7 +76,7 @@ class PostController {
       return $post;
     }
 
-    return null;
+    return [];
   }
 
   /**

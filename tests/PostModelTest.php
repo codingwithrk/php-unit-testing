@@ -6,39 +6,45 @@ use PHPUnit\Framework\TestCase;
 use App\Models\Post;
 
 final class PostModelTest extends TestCase {
-    public function testPostTitle() : void {
-        $post = new Post();
-        $postTitle = 'This is a blog post';
-        $post->setPostTitle($postTitle);
+    protected static $post;
 
-        $this->assertEquals($postTitle, $post->getPostTitle());
-        $this->assertIsString($post->getPostTitle());
+    public function setUp() : void {
+        self::$post = new Post();
+    }
+
+    public function tearDown() : void {
+        self::$post = null;
+    }
+    
+    public function testPostTitle() : void {
+        $postTitle = 'This is a blog post';
+        self::$post->setPostTitle($postTitle);
+
+        $this->assertEquals($postTitle, self::$post->getPostTitle());
+        $this->assertIsString(self::$post->getPostTitle());
     }
 
     public function testPostAuthorId() : void {
-        $post = new Post();
         $authorId = 1;
-        $post->setAuthorId($authorId);
+        self::$post->setAuthorId($authorId);
 
-        $this->assertEquals($authorId, $post->getAuthorId());
-        $this->assertIsInt($post->getAuthorId());
+        $this->assertEquals($authorId, self::$post->getAuthorId());
+        $this->assertIsInt(self::$post->getAuthorId());
     }
 
     public function testPostAuthor() : void {
-        $post = new Post();
         $author = "CodingwithRK";
-        $post->setAuthor($author);
+        self::$post->setAuthor($author);
 
-        $this->assertEquals($author, $post->getAuthor());
-        $this->assertIsString($post->getAuthor());
+        $this->assertEquals($author, self::$post->getAuthor());
+        $this->assertIsString(self::$post->getAuthor());
     }
 
     public function testPostBody() : void {
-        $post = new Post();
         $postBody = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.";
-        $post->setPost($postBody);
+        self::$post->setPost($postBody);
 
-        $this->assertEquals($postBody, $post->getPost());
-        $this->assertIsString($post->getPost());
+        $this->assertEquals($postBody, self::$post->getPost());
+        $this->assertIsString(self::$post->getPost());
     }
 }

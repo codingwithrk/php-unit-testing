@@ -40,14 +40,35 @@ class CommentController {
         ];
 
         $id = $this->db->insert('comments', $commentRecord);
-        $user_controller = new UserController($this->db, $this->log);
-        $user = $user_controller->fetchById($comment->getAuthorId());
+
+        return array(
+            'id' => $id, 
+            'post_id' => $comment->getPostId(), 
+            'author_id' => $comment->getAuthorId(),  
+            'comment' => $comment->getComment(),
+        );
+    }
+
+    /**
+     * Update a comment record
+     * 
+     * @param Comment $comment
+     * 
+     * @return array
+     */
+    public function update(Comment $comment) : array {
+        $commentRecord = [
+            'post_id'    => $comment->getPostId(),
+            'author_id'  => $comment->getAuthorId(),
+            'comment'    => $comment->getComment()
+        ];
+
+        $id = $this->db->update('comments', $commentRecord, ['id' => $comment->getId()]);
 
         return array(
             'id' => $id, 
             'post_id' => $comment->getPostId(), 
             'author_id' => $comment->getAuthorId(), 
-            'author_name' => $user['username'], 
             'comment' => $comment->getComment(),
         );
     }

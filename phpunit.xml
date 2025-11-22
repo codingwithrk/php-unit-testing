@@ -3,6 +3,7 @@
     testdox="true"
     displayDetailsOnTestsThatTriggerWarnings="true"
     displayDetailsOnTestsThatTriggerDeprecations="true"
+    displayDetailsOnTestsThatTriggerErrors="true"
 >
 
 </phpunit>

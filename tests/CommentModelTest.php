@@ -6,44 +6,49 @@ use PHPUnit\Framework\TestCase;
 use App\Models\Comment;
 
 final class CommentModelTest extends TestCase {
-    public function testCommentId() : void {
-        $comment = new Comment();
-        $id = 1;
-        $comment->setId($id);
+    protected static $comment;
 
-        $this->assertSame($id, $comment->getId());
+    public function setUp() : void {
+        self::$comment = new Comment();
+    }
+
+    public function tearDown() : void {
+        self::$comment = null;
+    }
+    
+    public function testCommentId() : void {
+        $id = 1;
+        self::$comment->setId($id);
+
+        $this->assertSame($id, self::$comment->getId());
     }
 
     public function testCommentPostId() : void {
-        $comment = new Comment();
         $postId = 5;
-        $comment->setPostId($postId);
+        self::$comment->setPostId($postId);
 
-        $this->assertSame($postId, $comment->getPostId());
+        $this->assertSame($postId, self::$comment->getPostId());
     }
 
     public function testCommentAuthorId() : void {
-        $comment = new Comment();
         $authorId = 1;
-        $comment->setAuthorId($authorId);
+        self::$comment->setAuthorId($authorId);
 
-        $this->assertSame($authorId, $comment->getAuthorId());
+        $this->assertSame($authorId, self::$comment->getAuthorId());
     }
 
     public function testCommentAuthor() : void {
-        $comment = new Comment();
         $author = "CodingwithRK";
-        $comment->setAuthor($author);
+        self::$comment->setAuthor($author);
 
-        $this->assertSame($author, $comment->getAuthor());
+        $this->assertSame($author, self::$comment->getAuthor());
     }
 
     public function testCommentBody() : void {
-        $comment = new Comment();
         $commentBody = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.";
-        $comment->setComment($commentBody);
+        self::$comment->setComment($commentBody);
 
-        $this->assertSame($commentBody, $comment->getComment());
+        $this->assertSame($commentBody, self::$comment->getComment());
     }
 }
 
