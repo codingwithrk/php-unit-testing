@@ -139,7 +139,7 @@ class MysqlAdapter implements IDbAdapter{
         if(count($rows) > 0)
             return $rows[ 0 ];
 
-        return null;
+        return [];
     }
 
     private function select($statement, $bind = array()) {
