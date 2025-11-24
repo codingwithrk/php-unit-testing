@@ -15,13 +15,15 @@ class UserController {
    */
   protected $db;
   protected $log;
+  protected $emailer;
 
   /**
    * @param IDbAdapter $dbAdapter
    */
-  public function __construct(IDbAdapter $dbAdapter, Logger $log) {
+  public function __construct(IDbAdapter $dbAdapter, Logger $log, ?Emailer $emailer = null) {
     $this->db = $dbAdapter;
     $this->log = $log;
+    $this->emailer = $emailer;
   }
 
   /**
@@ -151,9 +153,9 @@ class UserController {
    * 
    * @return array
    */
-  public function registerUser(User $user) : array {
+  public function registerUser(User $user) : array|User {
     $user_data = $this->insert($user);
-    $emailer = new Emailer($this->log);
+    $emailer = $this->emailer;
     
     $future = async(static function () use ($emailer) {
       $emailer->send();
@@ -162,8 +164,6 @@ class UserController {
     $future->await();
     $this->log->info('Registration complete');
 
-    return array(
-      $user_data
-    );
+    return $user_data;
   }
 }

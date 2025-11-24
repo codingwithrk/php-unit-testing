@@ -23,7 +23,8 @@ class Emailer {
      * Method to simulate sending an email
      * 
      */
-    public function send() : void {
+    public function send() : bool {
         $this->log->info("Email sent");
+        return true;
     }
 }

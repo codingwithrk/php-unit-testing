@@ -35,7 +35,7 @@ $streamHandler->setFormatter($formatter);
 $logger = new Logger('logger');
 $logger->pushHandler($streamHandler);
 
-$container->logger = $logger;
+// $container->logger = $logger;
 
 AppFactory::setContainer($container);
 $app = AppFactory::create();
